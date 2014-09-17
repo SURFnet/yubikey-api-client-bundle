@@ -1,0 +1,59 @@
+{
+	"composerBinDir": "vendor\/bin",
+	"projectName": "Yubikey API Client Bundle",
+	"buildArtifacts": {
+		"enabled": false
+	},
+	"travis": {
+		"enabled": true,
+		"phpVersions": {
+			"1": "5.6",
+			"2": "5.5",
+			"3": "5.4"
+		},
+		"env": {
+			"enabled": false
+		},
+		"slack": {
+			"enabled": false
+		}
+	},
+	"enablePhpTools": true,
+	"enableComposer": false,
+	"enablePhpLint": true,
+	"enablePhpMessDetector": true,
+	"phpMdExcludePatterns": [
+		"*\/Tests\/*"
+	],
+	"enablePhpCodeSniffer": true,
+	"phpCodeSnifferCodingStyle": "PSR2",
+	"phpCsExcludeSymfony": false,
+	"phpCsExcludeCustomPatterns": [
+		""
+	],
+	"phpCsExcludePatterns": [
+		""
+	],
+	"enablePhpCopyPasteDetection": true,
+	"phpCpdExcludePatterns": [
+
+	],
+	"enablePhpSecurityChecker": false,
+	"phpSrcPath": [
+		"src"
+	],
+	"enablePhpUnit": true,
+	"customPhpUnitXml": false,
+	"phpTestsPath": [
+		"src\/Surfnet\/YubikeyApiClient\/Tests",
+		"src\/Surfnet\/YubikeyApiClientBundle\/Tests"
+	],
+	"enablePhpUnitAutoload": true,
+	"phpUnitAutoloadPath": "vendor\/autoload.php",
+	"enableJsTools": false,
+	"enableJsHint": false,
+	"enableBehat": false,
+	"enablePreCommitHook": false,
+	"md5Command": "md5sum",
+	"_qa_tools_run_completed": true
+}
