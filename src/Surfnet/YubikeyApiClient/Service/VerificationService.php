@@ -47,7 +47,7 @@ class VerificationService
     /** Server has seen the OTP/Nonce combination before */
     const STATUS_REPLAYED_REQUEST = 'REPLAYED_REQUEST';
 
-    private static $SERVERS = [
+    private static $servers = [
         'http://api.yubico.com/wsapi/2.0/verify',
         'http://api2.yubico.com/wsapi/2.0/verify',
         'http://api3.yubico.com/wsapi/2.0/verify',
@@ -102,7 +102,7 @@ class VerificationService
         ];
         $query = $this->signer->sign($query);
 
-        $verificationServerUrl = self::$SERVERS[array_rand(self::$SERVERS)];
+        $verificationServerUrl = self::$servers[array_rand(self::$servers)];
         $httpResponse = $this->guzzle->get($verificationServerUrl, ['query' => $query]);
         $response = $this->parseYubicoResponse((string) $httpResponse->getBody());
 
