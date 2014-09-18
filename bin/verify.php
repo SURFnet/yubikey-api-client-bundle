@@ -21,17 +21,17 @@ $clientId = getenv('YUBIKEY_CLIENT_ID');
 $clientSecret = getenv('YUBIKEY_CLIENT_SECRET');
 
 if (empty($clientId)) {
-    print "Please set the YUBIKEY_CLIENT_ID environment variable.\n";
+    echo "Please set the YUBIKEY_CLIENT_ID environment variable.\n";
     exit(-1);
 }
 
 if (empty($clientSecret)) {
-    print "Please set the YUBIKEY_CLIENT_SECRET environment variable.\n";
+    echo "Please set the YUBIKEY_CLIENT_SECRET environment variable.\n";
     exit(-1);
 }
 
 if (count($argv) !== 2) {
-    print "Please pass a Yubikey OTP as first argument (php bin/verify.php <press-yubikey>).\n";
+    echo "Please pass a Yubikey OTP as first argument (php bin/verify.php <press-yubikey>).\n";
     exit(-1);
 }
 
