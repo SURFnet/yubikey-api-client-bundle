@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * Copyright 2014 SURFnet bv
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace Surfnet\YubikeyApiClient\Service;
+
+use Surfnet\YubikeyApiClient\Exception\DomainException;
+
+class Otp
+{
+    const OTP_REGEXP_QWERTY =
+        '/^((.*):)?(([cbdefghijklnrtuvCBDEFGHIJKLNRTUV]{0,16})([cbdefghijklnrtuvCBDEFGHIJKLNRTUV]{32}))$/';
+    const OTP_REGEX_DVORAK =
+        '/^((.*):)?(([jxe.uidchtnbpygkJXE.UIDCHTNBPYGK]{0,16})([jxe.uidchtnbpygkJXE.UIDCHTNBPYGK]{32}))$/';
+
+    /** @var string */
+    public $otp;
+
+    /** @var string|null */
+    public $password;
+
+    /** @var string|null */
+    public $publicId;
+
+    /** @var string|null */
+    public $cipherText;
+
+    /**
+     * @param string $string
+     * @return self
+     * @throws DomainException Thrown when the given string is not an OTP.
+     */
+    public static function fromString($string)
+    {
+        $otp = new self;
+
+        if (!preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
+            if (!preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
+                throw new DomainException('Given string is not a valid OTP.');
+            } else {
+                $otp->otp = strtr($matches[3], "jxe.uidchtnbpygk", "cbdefghijklnrtuv");
+            }
+        } else {
+            $otp->otp = $matches[3];
+        }
+
+        $otp->password = $matches[2] ?: null;
+        $otp->publicId = $matches[4] ?: null;
+        $otp->cipherText = $matches[5] ?: null;
+
+        return $otp;
+    }
+
+    /**
+     * @param string $string
+     * @return bool
+     */
+    public static function isValidString($string)
+    {
+        return preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)
+            || preg_match(self::OTP_REGEXP_DVORAK, $string, $matches);
+    }
+}
