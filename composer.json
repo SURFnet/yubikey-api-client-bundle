@@ -1,6 +1,11 @@
 {
     "name": "surfnet/yubikey-api-client-bundle",
     "description": "A Symfony2 bundle to integrate Yubikey OTP validation service.",
+    "keywords": [
+        "yubikey",
+        "yubico",
+        "surfnet"
+    ],
     "license": "Apache-2.0",
     "minimum-stability": "stable",
     "autoload": {
