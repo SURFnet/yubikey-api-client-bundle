@@ -48,14 +48,12 @@ class Otp
     {
         $otp = new self;
 
-        if (!preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
-            if (!preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
-                throw new DomainException('Given string is not a valid OTP.');
-            } else {
-                $otp->otp = strtr($matches[3], "jxe.uidchtnbpygk", "cbdefghijklnrtuv");
-            }
-        } else {
+        if (preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
             $otp->otp = $matches[3];
+        } elseif (preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
+            $otp->otp = strtr($matches[3], "jxe.uidchtnbpygk", "cbdefghijklnrtuv");
+        } else {
+            throw new DomainException('Given string is not a valid OTP.');
         }
 
         $otp->password = $matches[2];
