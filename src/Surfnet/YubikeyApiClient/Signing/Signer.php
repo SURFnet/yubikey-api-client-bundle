@@ -55,6 +55,8 @@ class Signer
     }
 
     /**
+     * Signs an array by calculating a signature and setting it on the 'h' key.
+     *
      * @param array $data
      * @return array
      */
@@ -68,6 +70,12 @@ class Signer
         return $data;
     }
 
+    /**
+     * Verifies that the signature in the 'h' key matches the expected signature.
+     *
+     * @param array $data
+     * @return bool
+     */
     public function verifySignature(array $data)
     {
         $signedData = array_intersect_key($data, array_flip(static::$validResponseParams));
