@@ -30,13 +30,13 @@ class Otp
     /** @var string */
     public $otp;
 
-    /** @var string|null */
+    /** @var string */
     public $password;
 
-    /** @var string|null */
+    /** @var string */
     public $publicId;
 
-    /** @var string|null */
+    /** @var string */
     public $cipherText;
 
     /**
@@ -58,9 +58,9 @@ class Otp
             $otp->otp = $matches[3];
         }
 
-        $otp->password = $matches[2] ?: null;
-        $otp->publicId = $matches[4] ?: null;
-        $otp->cipherText = $matches[5] ?: null;
+        $otp->password = $matches[2];
+        $otp->publicId = $matches[4];
+        $otp->cipherText = $matches[5];
 
         return $otp;
     }
