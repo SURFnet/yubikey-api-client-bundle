@@ -78,7 +78,7 @@ class Signer
      */
     public function verifySignature(array $data)
     {
-        $signedData = array_intersect_key($data, array_flip(static::$validResponseParams));
+        $signedData = array_intersect_key($data, array_flip(self::$validResponseParams));
         ksort($signedData);
 
         $queryString = $this->buildQueryString($signedData);
