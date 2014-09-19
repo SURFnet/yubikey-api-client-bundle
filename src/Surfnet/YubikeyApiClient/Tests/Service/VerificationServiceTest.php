@@ -3,6 +3,7 @@
 namespace Surfnet\YubikeyApiClient\Tests\Service;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\ResponseInterface;
 use Mockery as m;
 use Surfnet\YubikeyApiClient\Crypto\Signer;
@@ -144,6 +145,52 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
         $service->verify($otp);
+    }
+
+    public function testItRetriesOnceOnServerCommunicationFailure()
+    {
+        $otpString = 'ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv';
+        $nonce = 'surfnet';
+        $expectedQuery = [
+            'id' => '1234',
+            'otp' => $otpString,
+            'nonce' => $nonce,
+        ];
+
+        $expectedResponse = $this->createVerificationResponse($otpString, $nonce);
+        $returnValues = [
+            new RequestException('Server time-out', m::mock('GuzzleHttp\Message\RequestInterface')),
+            $expectedResponse,
+        ];
+        $previousUrl = null;
+        $guzzleClient = m::mock('GuzzleHttp\Client')
+            ->shouldReceive('get')
+                ->twice()
+                ->andReturnUsing(function ($url) use (&$returnValues, &$previousUrl) {
+                    if ($url === $previousUrl) {
+                        throw new \Exception('VerificationService retried, but with same URL');
+                    }
+
+                    $previousUrl = $url;
+
+                    $value = array_shift($returnValues);
+
+                    if ($value instanceof \Exception) {
+                        throw $value;
+                    } else {
+                        return $value;
+                    }
+                })
+            ->getMock();
+        $nonceGenerator = new FixedNonceGenerator('surfnet');
+        $signer = $this->createDummySigner($expectedQuery, true);
+
+        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp->otp = $otpString;
+
+        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
+
+        $this->assertEquals(VerificationService::STATUS_OK, $service->verify($otp));
     }
 
     /**

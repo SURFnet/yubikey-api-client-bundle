@@ -19,6 +19,7 @@
 namespace Surfnet\YubikeyApiClient\Service;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use Surfnet\YubikeyApiClient\Crypto\NonceGenerator;
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 use Surfnet\YubikeyApiClient\Exception\InvalidResponseException;
@@ -111,8 +112,19 @@ class VerificationService
         ];
         $query = $this->signer->sign($query);
 
-        $verificationServerUrl = self::$servers[array_rand(self::$servers)];
-        $httpResponse = $this->guzzle->get($verificationServerUrl, ['query' => $query]);
+        try {
+            $serverIndex = array_rand(self::$servers);
+            $httpResponse = $this->guzzle->get(self::$servers[$serverIndex], ['query' => $query]);
+        } catch (RequestException $e) {
+            if ($e->getResponse()) {
+                throw $e;
+            }
+
+            // There is no server response (timeout, DNS failure); try again.
+            $serverIndex = ($serverIndex + 1) % count(self::$servers);
+            $httpResponse = $this->guzzle->get(self::$servers[$serverIndex], ['query' => $query]);
+        }
+
         $response = $this->parseYubicoResponse((string) $httpResponse->getBody());
 
         if (!$this->signer->verifySignature($response)) {
