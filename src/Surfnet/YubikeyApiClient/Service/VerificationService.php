@@ -19,6 +19,7 @@
 namespace Surfnet\YubikeyApiClient\Service;
 
 use GuzzleHttp\ClientInterface;
+use Surfnet\YubikeyApiClient\Crypto\NonceGenerator;
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 use Surfnet\YubikeyApiClient\Exception\InvalidResponseException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
@@ -71,11 +72,17 @@ class VerificationService
     private $clientId;
 
     /**
+     * @var NonceGenerator
+     */
+    private $nonceGenerator;
+
+    /**
      * @param ClientInterface $guzzle
+     * @param NonceGenerator $nonceGenerator
      * @param Signer $signer
      * @param string $clientId
      */
-    public function __construct(ClientInterface $guzzle, Signer $signer, $clientId)
+    public function __construct(ClientInterface $guzzle, NonceGenerator $nonceGenerator, Signer $signer, $clientId)
     {
         if (!is_string($clientId)) {
             throw new InvalidArgumentException('Client ID must be string.');
@@ -84,6 +91,7 @@ class VerificationService
         $this->guzzle = $guzzle;
         $this->signer = $signer;
         $this->clientId = $clientId;
+        $this->nonceGenerator = $nonceGenerator;
     }
 
     /**
@@ -93,7 +101,7 @@ class VerificationService
      */
     public function verify(Otp $otp)
     {
-        $nonce = md5(uniqid(rand()));
+        $nonce = $this->nonceGenerator->generateNonce();
 
         $query = [
             'id'    => $this->clientId,
