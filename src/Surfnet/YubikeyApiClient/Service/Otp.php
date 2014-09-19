@@ -18,7 +18,7 @@
 
 namespace Surfnet\YubikeyApiClient\Service;
 
-use Surfnet\YubikeyApiClient\Exception\DomainException;
+use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 
 class Otp
 {
@@ -42,7 +42,7 @@ class Otp
     /**
      * @param string $string
      * @return self
-     * @throws DomainException Thrown when the given string is not an OTP.
+     * @throws InvalidArgumentException Thrown when the given string is not an OTP.
      */
     public static function fromString($string)
     {
@@ -53,7 +53,7 @@ class Otp
         } elseif (preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
             $otp->otp = strtr($matches[3], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
         } else {
-            throw new DomainException('Given string is not a valid OTP.');
+            throw new InvalidArgumentException('Given string is not a valid OTP.');
         }
 
         $otp->password = $matches[2];
