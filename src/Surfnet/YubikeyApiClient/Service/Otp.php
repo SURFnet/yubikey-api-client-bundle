@@ -48,6 +48,10 @@ class Otp
     {
         $otp = new self;
 
+        if (!is_string($string)) {
+            throw new InvalidArgumentException('Given OTP is not a string.');
+        }
+
         if (preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
             $otp->otp = $matches[3];
         } elseif (preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
