@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "ibuildings/qa-tools": "~1.1",
-        "matthiasnoback/symfony-config-test": "0.*"
+        "matthiasnoback/symfony-config-test": "0.*",
+        "mockery/mockery": "0.9.*"
     }
 }
