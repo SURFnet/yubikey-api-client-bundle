@@ -1,7 +1,7 @@
 filter:
     excluded_paths:
-        - src/Surfnet/YubikeyApiClient/Tests
-        - src/Surfnet/YubikeyApiClientBundle/Tests
+        - src/Surfnet/YubikeyApiClient/Tests/*
+        - src/Surfnet/YubikeyApiClientBundle/Tests/*
 
 checks:
     php:
