@@ -121,6 +121,15 @@ class OtpTest extends \PHPUnit_Framework_TestCase
         Otp::fromString($nonOtpString);
     }
 
+    /**
+     * @dataProvider nonOtpStrings
+     * @param string $string
+     */
+    public function testItDoesntAcceptInvalidOtps($string)
+    {
+        $this->assertFalse(Otp::isValidString($string));
+    }
+
     public function nonOtpStrings()
     {
         return [
