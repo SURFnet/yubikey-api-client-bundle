@@ -64,6 +64,11 @@ class Otp
             throw new InvalidArgumentException('Given string is not a valid OTP.');
         }
 
+        // Lowercase string in case caps lock is enabled.
+        $otp->otp = strtolower($otp->otp);
+        $otp->publicId = strtolower($otp->publicId);
+        $otp->cipherText = strtolower($otp->cipherText);
+
         return $otp;
     }
 
