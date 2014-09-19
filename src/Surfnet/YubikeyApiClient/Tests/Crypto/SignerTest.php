@@ -1,8 +1,8 @@
 <?php
 
-namespace Surfnet\YubikeyApiClient\Tests\Signing;
+namespace Surfnet\YubikeyApiClient\Tests\Crypto;
 
-use Surfnet\YubikeyApiClient\Signing\Signer;
+use Surfnet\YubikeyApiClient\Crypto\Signer;
 
 class SignerTest extends \PHPUnit_Framework_TestCase
 {

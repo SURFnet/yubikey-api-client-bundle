@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace Surfnet\YubikeyApiClient\Signing;
+namespace Surfnet\YubikeyApiClient\Crypto;
 
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 

@@ -22,7 +22,7 @@ use GuzzleHttp\ClientInterface;
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 use Surfnet\YubikeyApiClient\Exception\InvalidResponseException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
-use Surfnet\YubikeyApiClient\Signing\Signer;
+use Surfnet\YubikeyApiClient\Crypto\Signer;
 
 class VerificationService
 {
