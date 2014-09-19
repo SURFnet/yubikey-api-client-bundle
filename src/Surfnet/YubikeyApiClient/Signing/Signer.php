@@ -52,6 +52,10 @@ class Signer
         }
 
         $this->clientSecret = base64_decode($clientSecret);
+
+        if (!is_string($this->clientSecret) || base64_encode($this->clientSecret) !== $clientSecret) {
+            throw new InvalidArgumentException('Given client secret is not a base64-decodable string.');
+        }
     }
 
     /**
