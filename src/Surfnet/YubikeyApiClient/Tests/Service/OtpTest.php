@@ -20,6 +20,15 @@ class OtpTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($cipherText, $otp->cipherText);
     }
 
+    /**
+     * @dataProvider otpStrings
+     * @param string $string
+     */
+    public function testItValidatesCorrectOtps($string)
+    {
+        $this->assertTrue(Otp::isValidString($string));
+    }
+
     public function otpStrings()
     {
         return [
