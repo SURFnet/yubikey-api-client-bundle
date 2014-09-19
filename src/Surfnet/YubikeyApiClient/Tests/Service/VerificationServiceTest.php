@@ -69,7 +69,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function testVerifiesResponseOtpEqualsRequestOtp()
     {
         $this->setExpectedException(
-            'Surfnet\YubikeyApiClient\Exception\InvalidResponseException',
+            'Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException',
             'OTP doesn\'t match'
         );
 
@@ -96,7 +96,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function testVerifiesResponseNonceEqualsRequestNonce()
     {
         $this->setExpectedException(
-            'Surfnet\YubikeyApiClient\Exception\InvalidResponseException',
+            'Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException',
             'nonce doesn\'t match'
         );
 

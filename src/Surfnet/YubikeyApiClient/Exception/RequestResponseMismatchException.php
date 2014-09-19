@@ -22,6 +22,6 @@ namespace Surfnet\YubikeyApiClient\Exception;
  * Thrown when response data like the OTP or nonce are different than
  * the one sent to Yubico.
  */
-class InvalidResponseException extends RuntimeException
+class RequestResponseMismatchException extends RuntimeException
 {
 }

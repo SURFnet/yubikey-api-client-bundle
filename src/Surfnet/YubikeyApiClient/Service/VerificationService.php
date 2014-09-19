@@ -22,7 +22,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Surfnet\YubikeyApiClient\Crypto\NonceGenerator;
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
-use Surfnet\YubikeyApiClient\Exception\InvalidResponseException;
+use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Crypto\Signer;
 
@@ -99,7 +99,7 @@ class VerificationService
      * @param Otp $otp
      * @return string A Yubico response status. See the STATUS_* constants.
      * @throws UntrustedSignatureException When the signature doesn't match the expected signature.
-     * @throws InvalidResponseException When the response data doesn't match the requested data (otp, nonce).
+     * @throws RequestResponseMismatchException When the response data doesn't match the requested data (otp, nonce).
      */
     public function verify(Otp $otp)
     {
@@ -132,11 +132,11 @@ class VerificationService
         }
 
         if ($response['otp'] !== $otp->otp) {
-            throw new InvalidResponseException('The response OTP doesn\'t match the requested OTP.');
+            throw new RequestResponseMismatchException('The response OTP doesn\'t match the requested OTP.');
         }
 
         if ($response['nonce'] !== $nonce) {
-            throw new InvalidResponseException('The response nonce doesn\'t match the requested nonce.');
+            throw new RequestResponseMismatchException('The response nonce doesn\'t match the requested nonce.');
         }
 
         return $response['status'];
