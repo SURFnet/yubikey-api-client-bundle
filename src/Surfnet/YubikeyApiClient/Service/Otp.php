@@ -23,7 +23,7 @@ use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 class Otp
 {
     const OTP_REGEXP_QWERTY = '/^((.*):)?(([cbdefghijklnrtuv]{0,16})([cbdefghijklnrtuv]{32}))$/i';
-    const OTP_REGEX_DVORAK = '/^((.*):)?(([jxe\.uidchtnbpygk]{0,16})([jxe\.uidchtnbpygk]{32}))$/i';
+    const OTP_REGEXP_DVORAK = '/^((.*):)?(([jxe\.uidchtnbpygk]{0,16})([jxe\.uidchtnbpygk]{32}))$/i';
 
     /** @var string */
     public $otp;
@@ -55,7 +55,7 @@ class Otp
             $otp->password = $matches[2];
             $otp->publicId = $matches[4];
             $otp->cipherText = $matches[5];
-        } elseif (preg_match(self::OTP_REGEX_DVORAK, $string, $matches)) {
+        } elseif (preg_match(self::OTP_REGEXP_DVORAK, $string, $matches)) {
             $otp->otp = strtr($matches[3], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
             $otp->password = $matches[2];
             $otp->publicId = strtr($matches[4], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
