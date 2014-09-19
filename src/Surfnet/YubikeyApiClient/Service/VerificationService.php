@@ -97,7 +97,8 @@ class VerificationService
     /**
      * @param Otp $otp
      * @return string A Yubico response status. See the STATUS_* constants.
-     * @throws
+     * @throws UntrustedSignatureException When the signature doesn't match the expected signature.
+     * @throws InvalidResponseException When the response data doesn't match the requested data (otp, nonce).
      */
     public function verify(Otp $otp)
     {
