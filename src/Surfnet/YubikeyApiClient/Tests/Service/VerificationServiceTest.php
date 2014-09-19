@@ -11,6 +11,37 @@ use Surfnet\YubikeyApiClient\Tests\Crypto\FixedNonceGenerator;
 
 class VerificationServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @dataProvider nonStrings
+     * @param mixed $nonString
+     */
+    public function testClientIdMustBeString($nonString)
+    {
+        $this->setExpectedException(
+            'Surfnet\YubikeyApiClient\Exception\InvalidArgumentException',
+            'Client ID must be string'
+        );
+
+        new VerificationService(
+            m::mock('GuzzleHttp\ClientInterface'),
+            m::mock('Surfnet\YubikeyApiClient\Crypto\NonceGenerator'),
+            m::mock('Surfnet\YubikeyApiClient\Crypto\Signer'),
+            $nonString
+        );
+    }
+
+    public function nonStrings()
+    {
+        return [
+            'integer' => [1],
+            'float' => [1.1],
+            'array' => [array()],
+            'object' => [new \stdClass],
+            'null' => [null],
+            'boolean' => [false],
+        ];
+    }
+
     public function testVerifiesOtp()
     {
         $otpString = 'ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv';
