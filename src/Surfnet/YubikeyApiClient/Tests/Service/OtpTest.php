@@ -26,7 +26,7 @@ class OtpTest extends \PHPUnit_Framework_TestCase
      */
     public function testItValidatesCorrectOtps($string)
     {
-        $this->assertTrue(Otp::isValidString($string));
+        $this->assertTrue(Otp::isValid($string));
     }
 
     public function otpStrings()
@@ -127,7 +127,7 @@ class OtpTest extends \PHPUnit_Framework_TestCase
      */
     public function testItDoesntAcceptInvalidOtps($string)
     {
-        $this->assertFalse(Otp::isValidString($string));
+        $this->assertFalse(Otp::isValid($string));
     }
 
     public function nonOtpStrings()

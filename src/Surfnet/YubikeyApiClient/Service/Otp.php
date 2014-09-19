@@ -71,7 +71,7 @@ class Otp
      * @param string $string
      * @return bool
      */
-    public static function isValidString($string)
+    public static function isValid($string)
     {
         return preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)
             || preg_match(self::OTP_REGEXP_DVORAK, $string, $matches);
