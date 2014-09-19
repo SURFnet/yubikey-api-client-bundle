@@ -51,23 +51,18 @@ class Otp
         }
 
         if (preg_match(self::OTP_REGEXP_QWERTY, $string, $matches)) {
-            $otp->otp = $matches[3];
+            $otp->otp = strtolower($matches[3]);
             $otp->password = $matches[2];
-            $otp->publicId = $matches[4];
-            $otp->cipherText = $matches[5];
+            $otp->publicId = strtolower($matches[4]);
+            $otp->cipherText = strtolower($matches[5]);
         } elseif (preg_match(self::OTP_REGEXP_DVORAK, $string, $matches)) {
-            $otp->otp = strtr($matches[3], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
+            $otp->otp = strtr(strtolower($matches[3]), 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
             $otp->password = $matches[2];
-            $otp->publicId = strtr($matches[4], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
-            $otp->cipherText = strtr($matches[5], 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
+            $otp->publicId = strtr(strtolower($matches[4]), 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
+            $otp->cipherText = strtr(strtolower($matches[5]), 'jxe.uidchtnbpygk', 'cbdefghijklnrtuv');
         } else {
             throw new InvalidArgumentException('Given string is not a valid OTP.');
         }
-
-        // Lowercase string in case caps lock is enabled.
-        $otp->otp = strtolower($otp->otp);
-        $otp->publicId = strtolower($otp->publicId);
-        $otp->cipherText = strtolower($otp->cipherText);
 
         return $otp;
     }
