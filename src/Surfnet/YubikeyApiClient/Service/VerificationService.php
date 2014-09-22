@@ -76,7 +76,7 @@ class VerificationService
 
     /**
      * @param Otp $otp
-     * @return VerifyOtpResult
+     * @return OtpVerificationResult
      * @throws UntrustedSignatureException When the signature doesn't match the expected signature.
      * @throws RequestResponseMismatchException When the response data doesn't match the requested data (otp, nonce).
      */
@@ -118,7 +118,7 @@ class VerificationService
             throw new RequestResponseMismatchException('The response nonce doesn\'t match the requested nonce.');
         }
 
-        return new VerifyOtpResult($response['status']);
+        return new OtpVerificationResult($response['status']);
     }
 
     /**

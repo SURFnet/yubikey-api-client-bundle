@@ -2,7 +2,7 @@
 
 namespace Surfnet\YubikeyApiClient\Service;
 
-class VerifyOtpResult
+class OtpVerificationResult
 {
     /** The OTP is valid. */
     const STATUS_OK = 'OK';

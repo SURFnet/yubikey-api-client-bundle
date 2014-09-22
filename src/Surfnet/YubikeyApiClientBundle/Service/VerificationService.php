@@ -7,7 +7,7 @@ use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Service\Otp;
 use Surfnet\YubikeyApiClient\Service\VerificationService as Service;
-use Surfnet\YubikeyApiClient\Service\VerifyOtpResult;
+use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
 
 class VerificationService
 {
@@ -33,7 +33,7 @@ class VerificationService
 
     /**
      * @param Otp $otp
-     * @return VerifyOtpResult
+     * @return OtpVerificationResult
      */
     public function verify(Otp $otp)
     {
@@ -45,14 +45,14 @@ class VerificationService
                 'otp' => $otp->otp,
             ]);
 
-            return new VerifyOtpResult(VerifyOtpResult::ERROR_BAD_SIGNATURE);
+            return new OtpVerificationResult(OtpVerificationResult::ERROR_BAD_SIGNATURE);
         } catch (RequestResponseMismatchException $e) {
             $this->logger->alert(sprintf('Yubico request and response didn\'t match (%s)', $e->getMessage()), [
                 'exception' => $e,
                 'otp' => $otp->otp,
             ]);
 
-            return new VerifyOtpResult(VerifyOtpResult::ERROR_BACKEND_ERROR);
+            return new OtpVerificationResult(OtpVerificationResult::ERROR_BACKEND_ERROR);
         }
 
         if ($result->isSuccessful()) {

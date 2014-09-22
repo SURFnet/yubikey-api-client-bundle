@@ -6,7 +6,7 @@ use Mockery as m;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Service\Otp;
-use Surfnet\YubikeyApiClient\Service\VerifyOtpResult;
+use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
 use Surfnet\YubikeyApiClientBundle\Service\VerificationService;
 
 class VerificationServiceTest extends \PHPUnit_Framework_TestCase
@@ -44,7 +44,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = $service->verify($otp);
-        $this->assertEquals(VerifyOtpResult::ERROR_BAD_SIGNATURE, $result->getError());
+        $this->assertEquals(OtpVerificationResult::ERROR_BAD_SIGNATURE, $result->getError());
     }
 
     public function testItLogsRequestResponseMismatchesAsAlerts()
@@ -63,7 +63,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $result = $service->verify($otp);
-        $this->assertEquals(VerifyOtpResult::ERROR_BACKEND_ERROR, $result->getError());
+        $this->assertEquals(OtpVerificationResult::ERROR_BACKEND_ERROR, $result->getError());
     }
 
     /**
@@ -95,15 +95,15 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function criticalErrorStatuses()
     {
         return [
-            'Didn\'t log ERROR_BAD_OTP as critical'               => [VerifyOtpResult::ERROR_BAD_OTP],
-            'Didn\'t log ERROR_REPLAYED_OTP as critical'          => [VerifyOtpResult::ERROR_REPLAYED_OTP],
-            'Didn\'t log ERROR_BAD_SIGNATURE as critical'         => [VerifyOtpResult::ERROR_BAD_SIGNATURE],
-            'Didn\'t log ERROR_MISSING_PARAMETER as critical'     => [VerifyOtpResult::ERROR_MISSING_PARAMETER],
-            'Didn\'t log ERROR_NO_SUCH_CLIENT as critical'        => [VerifyOtpResult::ERROR_NO_SUCH_CLIENT],
-            'Didn\'t log ERROR_OPERATION_NOT_ALLOWED as critical' => [VerifyOtpResult::ERROR_OPERATION_NOT_ALLOWED],
-            'Didn\'t log ERROR_BACKEND_ERROR as critical'         => [VerifyOtpResult::ERROR_BACKEND_ERROR],
-            'Didn\'t log ERROR_NOT_ENOUGH_ANSWERS as critical'    => [VerifyOtpResult::ERROR_NOT_ENOUGH_ANSWERS],
-            'Didn\'t log ERROR_REPLAYED_REQUEST as critical'      => [VerifyOtpResult::ERROR_REPLAYED_REQUEST],
+            'Didn\'t log ERROR_BAD_OTP as critical'               => [OtpVerificationResult::ERROR_BAD_OTP],
+            'Didn\'t log ERROR_REPLAYED_OTP as critical'          => [OtpVerificationResult::ERROR_REPLAYED_OTP],
+            'Didn\'t log ERROR_BAD_SIGNATURE as critical'         => [OtpVerificationResult::ERROR_BAD_SIGNATURE],
+            'Didn\'t log ERROR_MISSING_PARAMETER as critical'     => [OtpVerificationResult::ERROR_MISSING_PARAMETER],
+            'Didn\'t log ERROR_NO_SUCH_CLIENT as critical'        => [OtpVerificationResult::ERROR_NO_SUCH_CLIENT],
+            'Didn\'t log ERROR_OPERATION_NOT_ALLOWED as critical' => [OtpVerificationResult::ERROR_OPERATION_NOT_ALLOWED],
+            'Didn\'t log ERROR_BACKEND_ERROR as critical'         => [OtpVerificationResult::ERROR_BACKEND_ERROR],
+            'Didn\'t log ERROR_NOT_ENOUGH_ANSWERS as critical'    => [OtpVerificationResult::ERROR_NOT_ENOUGH_ANSWERS],
+            'Didn\'t log ERROR_REPLAYED_REQUEST as critical'      => [OtpVerificationResult::ERROR_REPLAYED_REQUEST],
         ];
     }
 
