@@ -37,9 +37,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
                 ->shouldReceive('verify')->once()->with($otp)->andThrow(new UntrustedSignatureException)
                 ->getMock(),
             m::mock('Psr\Log\LoggerInterface')
-                ->shouldReceive('alert')->once()->andReturnUsing(
-                    $this->logMessageContains('invalid signature')
-                )
+                ->shouldReceive('alert')->once()
                 ->getMock()
         );
 
@@ -56,9 +54,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
                 ->shouldReceive('verify')->once()->with($otp)->andThrow(new RequestResponseMismatchException)
                 ->getMock(),
             m::mock('Psr\Log\LoggerInterface')
-                ->shouldReceive('alert')->once()->andReturnUsing(
-                    $this->logMessageContains('request and response didn\'t match')
-                )
+                ->shouldReceive('alert')->once()
                 ->getMock()
         );
 
@@ -83,9 +79,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
                 ->shouldReceive('verify')->once()->with($otp)->andReturn($result)
                 ->getMock(),
             m::mock('Psr\Log\LoggerInterface')
-                ->shouldReceive('critical')->once()->andReturnUsing(
-                    $this->logMessageContains('responded with error status')
-                )
+                ->shouldReceive('critical')->once()
                 ->getMock()
         );
 
@@ -105,18 +99,5 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
             'Didn\'t log ERROR_NOT_ENOUGH_ANSWERS as critical'    => [OtpVerificationResult::ERROR_NOT_ENOUGH_ANSWERS],
             'Didn\'t log ERROR_REPLAYED_REQUEST as critical'      => [OtpVerificationResult::ERROR_REPLAYED_REQUEST],
         ];
-    }
-
-    private function logMessageContains($contains)
-    {
-        return function ($string) use ($contains) {
-            if (!is_string($string)) {
-                throw new \Exception('Expected log message to be string');
-            }
-
-            if (strpos($string, $contains) === false) {
-                throw new \Exception(sprintf('Unexpected log message: "%s"', $string));
-            }
-        };
     }
 }
