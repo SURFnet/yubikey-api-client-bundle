@@ -58,7 +58,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
-        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
@@ -86,7 +86,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
-        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
@@ -113,7 +113,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
-        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
@@ -140,7 +140,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, false);
 
-        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
@@ -185,7 +185,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
-        $otp = m::mock('Surfnet\YubikeyApiClient\Service\Otp');
+        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');

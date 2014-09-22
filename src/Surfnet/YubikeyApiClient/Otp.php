@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace Surfnet\YubikeyApiClient\Service;
+namespace Surfnet\YubikeyApiClient;
 
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 

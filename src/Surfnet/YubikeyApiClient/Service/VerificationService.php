@@ -25,6 +25,7 @@ use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Crypto\Signer;
+use Surfnet\YubikeyApiClient\Otp;
 
 class VerificationService
 {

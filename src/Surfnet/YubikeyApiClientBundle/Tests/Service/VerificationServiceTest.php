@@ -5,7 +5,7 @@ namespace Surfnet\YubikeyApiClientBundle\Tests\Service;
 use Mockery as m;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
-use Surfnet\YubikeyApiClient\Service\Otp;
+use Surfnet\YubikeyApiClient\Otp;
 use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
 use Surfnet\YubikeyApiClientBundle\Service\VerificationService;
 

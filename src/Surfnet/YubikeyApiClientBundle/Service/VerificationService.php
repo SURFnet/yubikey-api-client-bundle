@@ -5,9 +5,9 @@ namespace Surfnet\YubikeyApiClientBundle\Service;
 use Psr\Log\LoggerInterface;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
-use Surfnet\YubikeyApiClient\Service\Otp;
-use Surfnet\YubikeyApiClient\Service\VerificationService as Service;
+use Surfnet\YubikeyApiClient\Otp;
 use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
+use Surfnet\YubikeyApiClient\Service\VerificationService as Service;
 
 class VerificationService
 {
