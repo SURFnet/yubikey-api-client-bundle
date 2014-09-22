@@ -14,7 +14,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function testItVerifiesAnOtp()
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock('Surfnet\YubikeyApiClient\Service\VerifyOtpResult')
+        $result = m::mock('Surfnet\YubikeyApiClient\Service\OtpVerificationResult')
             ->shouldReceive('isSuccessful')->andReturn(true)
             ->getMock();
 
@@ -73,7 +73,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function testItLogsAllOtherErrorStatusesAsCriticals($errorStatus)
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock('Surfnet\YubikeyApiClient\Service\VerifyOtpResult')
+        $result = m::mock('Surfnet\YubikeyApiClient\Service\OtpVerificationResult')
             ->shouldReceive('isSuccessful')->once()->andReturn(false)
             ->shouldReceive('getError')->once()->andReturn($errorStatus)
             ->getMock();
