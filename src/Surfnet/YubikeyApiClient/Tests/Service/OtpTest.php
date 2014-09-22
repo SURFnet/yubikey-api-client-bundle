@@ -88,7 +88,7 @@ class OtpTest extends \PHPUnit_Framework_TestCase
      * @dataProvider nonStrings
      * @param mixed $nonString
      */
-    public function testItValidatesGivenOtpIsAString($nonString)
+    public function testItThrowsAnExceptionWhenGivenArgumentIsNotAString($nonString)
     {
         $this->setExpectedException('Surfnet\YubikeyApiClient\Exception\InvalidArgumentException', 'not a string');
 
@@ -114,7 +114,7 @@ class OtpTest extends \PHPUnit_Framework_TestCase
      * @dataProvider nonOtpStrings
      * @param mixed $nonOtpString
      */
-    public function testItValidatesGivenOtpIsAnOtpString($nonOtpString)
+    public function testItThrowsAnExceptionWhenGivenStringIsNotAnOtpString($nonOtpString)
     {
         $this->setExpectedException('Surfnet\YubikeyApiClient\Exception\InvalidArgumentException', 'not a valid OTP');
 
