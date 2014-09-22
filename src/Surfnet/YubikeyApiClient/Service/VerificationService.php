@@ -25,22 +25,15 @@ use Surfnet\YubikeyApiClient\Crypto\Signer;
 use Surfnet\YubikeyApiClient\Exception\InvalidArgumentException;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
+use Surfnet\YubikeyApiClient\Http\ServerPoolClient;
 use Surfnet\YubikeyApiClient\Otp;
 
 class VerificationService
 {
-    private static $servers = [
-        'http://api.yubico.com/wsapi/2.0/verify',
-        'http://api2.yubico.com/wsapi/2.0/verify',
-        'http://api3.yubico.com/wsapi/2.0/verify',
-        'http://api4.yubico.com/wsapi/2.0/verify',
-        'http://api5.yubico.com/wsapi/2.0/verify',
-    ];
-
     /**
-     * @var ClientInterface
+     * @var ServerPoolClient
      */
-    private $guzzle;
+    private $httpClient;
 
     /**
      * @var Signer
@@ -58,18 +51,18 @@ class VerificationService
     private $nonceGenerator;
 
     /**
-     * @param ClientInterface $guzzle
+     * @param ServerPoolClient $httpClient
      * @param NonceGenerator $nonceGenerator
      * @param Signer $signer
      * @param string $clientId
      */
-    public function __construct(ClientInterface $guzzle, NonceGenerator $nonceGenerator, Signer $signer, $clientId)
+    public function __construct(ServerPoolClient $httpClient, NonceGenerator $nonceGenerator, Signer $signer, $clientId)
     {
         if (!is_string($clientId)) {
             throw new InvalidArgumentException('Client ID must be string.');
         }
 
-        $this->guzzle = $guzzle;
+        $this->httpClient = $httpClient;
         $this->signer = $signer;
         $this->clientId = $clientId;
         $this->nonceGenerator = $nonceGenerator;
@@ -92,19 +85,7 @@ class VerificationService
         ];
         $query = $this->signer->sign($query);
 
-        try {
-            $serverIndex = array_rand(self::$servers);
-            $httpResponse = $this->guzzle->get(self::$servers[$serverIndex], ['query' => $query]);
-        } catch (RequestException $e) {
-            if ($e->getResponse()) {
-                throw $e;
-            }
-
-            // There is no server response (timeout, DNS failure); try again.
-            $serverIndex = ($serverIndex + 1) % count(self::$servers);
-            $httpResponse = $this->guzzle->get(self::$servers[$serverIndex], ['query' => $query]);
-        }
-
+        $httpResponse = $this->httpClient->get(['query' => $query]);
         $response = $this->parseYubicoResponse((string) $httpResponse->getBody());
 
         if (!$this->signer->verifySignature($response)) {

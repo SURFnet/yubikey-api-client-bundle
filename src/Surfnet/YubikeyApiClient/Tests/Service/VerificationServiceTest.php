@@ -2,11 +2,10 @@
 
 namespace Surfnet\YubikeyApiClient\Tests\Service;
 
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Message\ResponseInterface;
 use Mockery as m;
 use Surfnet\YubikeyApiClient\Crypto\Signer;
+use Surfnet\YubikeyApiClient\Http\ServerPoolClient;
 use Surfnet\YubikeyApiClient\Service\VerificationService;
 use Surfnet\YubikeyApiClient\Tests\Crypto\NonceGeneratorStub;
 
@@ -24,7 +23,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         new VerificationService(
-            m::mock('GuzzleHttp\ClientInterface'),
+            m::mock('Surfnet\YubikeyApiClient\Http\ServerPoolClient'),
             m::mock('Surfnet\YubikeyApiClient\Crypto\NonceGenerator'),
             m::mock('Surfnet\YubikeyApiClient\Crypto\Signer'),
             $nonString
@@ -54,14 +53,14 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedResponse = $this->createVerificationResponse($otpString, $nonce);
-        $guzzleClient = $this->createGuzzleClient($expectedResponse);
+        $httpClient = $this->createHttpClient($expectedResponse);
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
         $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
-        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
+        $service = new VerificationService($httpClient, $nonceGenerator, $signer, '1234');
 
         $this->assertTrue($service->verify($otp)->isSuccessful());
     }
@@ -82,14 +81,14 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedResponse = $this->createVerificationResponse('different OTP', $nonce);
-        $guzzleClient = $this->createGuzzleClient($expectedResponse);
+        $httpClient = $this->createHttpClient($expectedResponse);
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
         $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
-        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
+        $service = new VerificationService($httpClient, $nonceGenerator, $signer, '1234');
         $service->verify($otp);
     }
 
@@ -109,14 +108,14 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedResponse = $this->createVerificationResponse($otpString, 'different nonce');
-        $guzzleClient = $this->createGuzzleClient($expectedResponse);
+        $httpClient = $this->createHttpClient($expectedResponse);
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, true);
 
         $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
-        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
+        $service = new VerificationService($httpClient, $nonceGenerator, $signer, '1234');
         $service->verify($otp);
     }
 
@@ -136,61 +135,15 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $expectedResponse = $this->createVerificationResponse($otpString, $nonce);
-        $guzzleClient = $this->createGuzzleClient($expectedResponse);
+        $httpClient = $this->createHttpClient($expectedResponse);
         $nonceGenerator = new NonceGeneratorStub('surfnet');
         $signer = $this->createDummySigner($expectedQuery, false);
 
         $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
         $otp->otp = $otpString;
 
-        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
+        $service = new VerificationService($httpClient, $nonceGenerator, $signer, '1234');
         $service->verify($otp);
-    }
-
-    public function testItRetriesOnceOnServerCommunicationFailure()
-    {
-        $otpString = 'ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv';
-        $nonce = 'surfnet';
-        $expectedQuery = [
-            'id' => '1234',
-            'otp' => $otpString,
-            'nonce' => $nonce,
-        ];
-
-        $expectedResponse = $this->createVerificationResponse($otpString, $nonce);
-        $returnValues = [
-            new RequestException('Server time-out', m::mock('GuzzleHttp\Message\RequestInterface')),
-            $expectedResponse,
-        ];
-        $previousUrl = null;
-        $guzzleClient = m::mock('GuzzleHttp\Client')
-            ->shouldReceive('get')
-                ->twice()
-                ->andReturnUsing(function ($url) use (&$returnValues, &$previousUrl) {
-                    if ($url === $previousUrl) {
-                        throw new \Exception('VerificationService retried, but with same URL');
-                    }
-
-                    $previousUrl = $url;
-
-                    $value = array_shift($returnValues);
-
-                    if ($value instanceof \Exception) {
-                        throw $value;
-                    } else {
-                        return $value;
-                    }
-                })
-            ->getMock();
-        $nonceGenerator = new NonceGeneratorStub('surfnet');
-        $signer = $this->createDummySigner($expectedQuery, true);
-
-        $otp = m::mock('Surfnet\YubikeyApiClient\Otp');
-        $otp->otp = $otpString;
-
-        $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
-
-        $this->assertTrue($service->verify($otp)->isSuccessful());
     }
 
     /**
@@ -209,15 +162,15 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param ResponseInterface $expectedResponse
-     * @return ClientInterface
+     * @return ServerPoolClient
      */
-    private function createGuzzleClient(ResponseInterface $expectedResponse)
+    private function createHttpClient(ResponseInterface $expectedResponse)
     {
-        $guzzleClient = m::mock('GuzzleHttp\ClientInterface')
+        $httpClient = m::mock('Surfnet\YubikeyApiClient\Http\ServerPoolClient')
             ->shouldReceive('get')->once()->andReturn($expectedResponse)
             ->getMock();
 
-        return $guzzleClient;
+        return $httpClient;
     }
 
     /**
