@@ -15,7 +15,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
         $result = m::mock('Surfnet\YubikeyApiClient\Service\VerifyOtpResult')
-            ->shouldReceive('isSuccessful')->twice()->andReturn(true)
+            ->shouldReceive('isSuccessful')->andReturn(true)
             ->getMock();
 
         $service = new VerificationService(
