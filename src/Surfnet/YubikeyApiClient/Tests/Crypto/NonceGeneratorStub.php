@@ -4,7 +4,7 @@ namespace Surfnet\YubikeyApiClient\Tests\Crypto;
 
 use Surfnet\YubikeyApiClient\Crypto\NonceGenerator;
 
-class FixedNonceGenerator implements NonceGenerator
+class NonceGeneratorStub implements NonceGenerator
 {
     /**
      * @var string
