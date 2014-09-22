@@ -29,7 +29,7 @@ public function fooAction()
     /** @var \Surfnet\YubikeyApiClientBundle\Service\VerificationService */
     $service = $this->get('surfnet_yubikey_api_client.verification_service');
     
-    $otp = Otp::fromString('user-input-otp-here');
+    $otp = \Surfnet\YubikeyApiClient\Service\Otp::fromString('user-input-otp-here');
     $result = $service->verify($otp);
     
     if ($result->isSuccessful()) {
