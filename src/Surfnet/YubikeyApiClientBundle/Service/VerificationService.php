@@ -7,6 +7,7 @@ use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Service\Otp;
 use Surfnet\YubikeyApiClient\Service\VerificationService as Service;
+use Surfnet\YubikeyApiClient\Service\VerifyOtpResult;
 
 class VerificationService
 {
@@ -30,32 +31,38 @@ class VerificationService
         $this->logger = $logger;
     }
 
+    /**
+     * @param Otp $otp
+     * @return VerifyOtpResult
+     */
     public function verify(Otp $otp)
     {
         try {
-            $status = $this->service->verify($otp);
+            $result = $this->service->verify($otp);
         } catch (UntrustedSignatureException $e) {
             $this->logger->alert(sprintf('Yubico responded with invalid signature (%s)', $e->getMessage()), [
                 'exception' => $e,
                 'otp' => $otp->otp,
             ]);
 
-            return Service::STATUS_BAD_SIGNATURE;
+            return new VerifyOtpResult(VerifyOtpResult::ERROR_BAD_SIGNATURE);
         } catch (RequestResponseMismatchException $e) {
             $this->logger->alert(sprintf('Yubico request and response didn\'t match (%s)', $e->getMessage()), [
                 'exception' => $e,
                 'otp' => $otp->otp,
             ]);
 
-            return Service::STATUS_BACKEND_ERROR;
+            return new VerifyOtpResult(VerifyOtpResult::ERROR_BACKEND_ERROR);
         }
 
-        if ($status === Service::STATUS_OK) {
-            return $status;
+        if ($result->isSuccessful()) {
+            return $result;
         }
 
-        $this->logger->critical(sprintf('Yubico responded with error status \'%s\'', $status), [
+        $this->logger->critical(sprintf('Yubico responded with error status \'%s\'', $result->getError()), [
             'otp' => $otp->otp,
         ]);
+
+        return $result;
     }
 }

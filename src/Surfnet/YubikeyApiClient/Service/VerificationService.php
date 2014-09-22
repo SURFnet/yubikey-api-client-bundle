@@ -28,27 +28,6 @@ use Surfnet\YubikeyApiClient\Crypto\Signer;
 
 class VerificationService
 {
-    /** The OTP is valid. */
-    const STATUS_OK = 'OK';
-    /** The OTP is invalid format. */
-    const STATUS_BAD_OTP = 'BAD_OTP';
-    /** The OTP has already been seen by the service. */
-    const STATUS_REPLAYED_OTP = 'REPLAYED_OTP';
-    /** The HMAC signature verification failed. */
-    const STATUS_BAD_SIGNATURE = 'BAD_SIGNATURE';
-    /** The request lacks a parameter. */
-    const STATUS_MISSING_PARAMETER = 'MISSING_PARAMETER';
-    /** The request id does not exist. */
-    const STATUS_NO_SUCH_CLIENT = 'NO_SUCH_CLIENT';
-    /** The request id is not allowed to verify OTPs. */
-    const STATUS_OPERATION_NOT_ALLOWED = 'OPERATION_NOT_ALLOWED';
-    /** Unexpected error in our server. Please contact us if you see this error. */
-    const STATUS_BACKEND_ERROR = 'BACKEND_ERROR';
-    /** Server could not get requested number of syncs during before timeout */
-    const STATUS_NOT_ENOUGH_ANSWERS = 'NOT_ENOUGH_ANSWERS';
-    /** Server has seen the OTP/Nonce combination before */
-    const STATUS_REPLAYED_REQUEST = 'REPLAYED_REQUEST';
-
     private static $servers = [
         'http://api.yubico.com/wsapi/2.0/verify',
         'http://api2.yubico.com/wsapi/2.0/verify',
@@ -97,7 +76,7 @@ class VerificationService
 
     /**
      * @param Otp $otp
-     * @return string A Yubico response status. See the STATUS_* constants.
+     * @return VerifyOtpResult
      * @throws UntrustedSignatureException When the signature doesn't match the expected signature.
      * @throws RequestResponseMismatchException When the response data doesn't match the requested data (otp, nonce).
      */
@@ -139,7 +118,7 @@ class VerificationService
             throw new RequestResponseMismatchException('The response nonce doesn\'t match the requested nonce.');
         }
 
-        return $response['status'];
+        return new VerifyOtpResult($response['status']);
     }
 
     /**

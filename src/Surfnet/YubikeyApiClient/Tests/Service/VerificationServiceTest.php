@@ -63,7 +63,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
 
-        $this->assertEquals(VerificationService::STATUS_OK, $service->verify($otp));
+        $this->assertTrue($service->verify($otp)->isSuccessful());
     }
 
     public function testVerifiesResponseOtpEqualsRequestOtp()
@@ -190,7 +190,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new VerificationService($guzzleClient, $nonceGenerator, $signer, '1234');
 
-        $this->assertEquals(VerificationService::STATUS_OK, $service->verify($otp));
+        $this->assertTrue($service->verify($otp)->isSuccessful());
     }
 
     /**
