@@ -2,7 +2,7 @@
 
 namespace Surfnet\YubikeyApiClient\Crypto;
 
-class Md5UniqidNonceGenerator implements NonceGenerator
+class RandomNonceGenerator implements NonceGenerator
 {
     public function generateNonce()
     {

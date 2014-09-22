@@ -2,13 +2,13 @@
 
 namespace Surfnet\YubikeyApiClient\Tests\Crypto;
 
-use Surfnet\YubikeyApiClient\Crypto\Md5UniqidNonceGenerator;
+use Surfnet\YubikeyApiClient\Crypto\RandomNonceGenerator;
 
-class Md5UniqidNonceGeneratorTest extends \PHPUnit_Framework_TestCase
+class RandomNonceGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testItGeneratesMd5Nonce()
     {
-        $generator = new Md5UniqidNonceGenerator;
+        $generator = new RandomNonceGenerator;
         $nonce = $generator->generateNonce();
 
         $this->assertSame(1, preg_match('/^[a-f0-9]{32}$/', $nonce));

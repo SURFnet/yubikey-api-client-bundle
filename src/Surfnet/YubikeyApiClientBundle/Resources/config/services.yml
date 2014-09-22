@@ -34,7 +34,7 @@ services:
 
     surfnet_yubikey_api_client.nonce_generator:
         public: false
-        class: Surfnet\YubikeyApiClient\Crypto\Md5UniqidNonceGeneratorTest
+        class: Surfnet\YubikeyApiClient\Crypto\RandomNonceGeneratorTest
 
     surfnet_yubikey_api_client.signer:
         public: false
