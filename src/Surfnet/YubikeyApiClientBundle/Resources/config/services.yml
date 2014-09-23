@@ -12,4 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services: ~
+services:
+    surfnet_yubikey_api_client.verification_service:
+        class: Surfnet\YubikeyApiClientBundle\Service\VerificationService
+        arguments:
+            - @surfnet_yubikey_api_client.library_verification_service
+            - @logger
+
+    surfnet_yubikey_api_client.library_verification_service:
+        public: false
+        class: Surfnet\YubikeyApiClient\Service\VerificationService
+        arguments:
+            - @surfnet_yubikey_api_client.guzzle
+            - @surfnet_yubikey_api_client.nonce_generator
+            - @surfnet_yubikey_api_client.signer
+            - %surfnet_yubikey_api_client.client_id%
+
+    surfnet_yubikey_api_client.guzzle:
+        public: false
+        class: GuzzleHttp\Client
+
+    surfnet_yubikey_api_client.nonce_generator:
+        public: false
+        class: Surfnet\YubikeyApiClient\Crypto\RandomNonceGeneratorTest
+
+    surfnet_yubikey_api_client.signer:
+        public: false
+        class: Surfnet\YubikeyApiClient\Crypto\Signer:
+        arguments:
+            - %surfnet_yubikey_api_client.client_secret%

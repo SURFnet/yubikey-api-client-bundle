@@ -30,7 +30,35 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder;
 
-        $treeBuilder->root('surfnet_yubikey_api_client');
+        $rootNode = $treeBuilder->root('surfnet_yubikey_api_client');
+        $rootNode
+            ->children()
+                ->arrayNode('credentials')
+                    ->info('YubiKey API Credentials')
+                    ->children()
+                        ->scalarNode('client_id')
+                            ->info('Client ID for the YubiKey API')
+                            ->isRequired()
+                            ->validate()
+                                ->ifTrue(function ($value) {
+                                    return (!is_string($value) || trim($value) === '');
+                                })
+                                ->thenInvalid('Invalid YubiKey API Client ID specified: "%s"')
+                            ->end()
+                        ->end()
+                        ->scalarNode('client_secret')
+                            ->info('Secret for the YubiKey API')
+                            ->isRequired()
+                            ->validate()
+                                ->ifTrue(function ($value) {
+                                    return (!is_string($value) || trim($value) === '');
+                                })
+                                ->thenInvalid('Invalid YubiKey API secret specified: "%s"')
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }
