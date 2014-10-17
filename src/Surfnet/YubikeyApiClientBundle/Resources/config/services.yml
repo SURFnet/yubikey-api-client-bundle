@@ -23,10 +23,16 @@ services:
         public: false
         class: Surfnet\YubikeyApiClient\Service\VerificationService
         arguments:
-            - @surfnet_yubikey_api_client.guzzle
+            - @surfnet_yubikey_api_client.server_pool_client
             - @surfnet_yubikey_api_client.nonce_generator
             - @surfnet_yubikey_api_client.signer
             - %surfnet_yubikey_api_client.credentials.client_id%
+
+    surfnet_yubikey_api_client.server_pool_client:
+        public: false
+        class: Surfnet\YubikeyApiClient\Http\ServerPoolClient
+        arguments:
+            - @surfnet_yubikey_api_client.guzzle
 
     surfnet_yubikey_api_client.guzzle:
         public: false
@@ -34,7 +40,7 @@ services:
 
     surfnet_yubikey_api_client.nonce_generator:
         public: false
-        class: Surfnet\YubikeyApiClient\Crypto\RandomNonceGeneratorTest
+        class: Surfnet\YubikeyApiClient\Crypto\RandomNonceGenerator
 
     surfnet_yubikey_api_client.signer:
         public: false
