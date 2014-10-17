@@ -26,7 +26,7 @@ services:
             - @surfnet_yubikey_api_client.guzzle
             - @surfnet_yubikey_api_client.nonce_generator
             - @surfnet_yubikey_api_client.signer
-            - %surfnet_yubikey_api_client.client_id%
+            - %surfnet_yubikey_api_client.credentials.client_id%
 
     surfnet_yubikey_api_client.guzzle:
         public: false
@@ -38,6 +38,6 @@ services:
 
     surfnet_yubikey_api_client.signer:
         public: false
-        class: Surfnet\YubikeyApiClient\Crypto\Signer:
+        class: Surfnet\YubikeyApiClient\Crypto\Signer
         arguments:
-            - %surfnet_yubikey_api_client.client_secret%
+            - %surfnet_yubikey_api_client.credentials.client_secret%
