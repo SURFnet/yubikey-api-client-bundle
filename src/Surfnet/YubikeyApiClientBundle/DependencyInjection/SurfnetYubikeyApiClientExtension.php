@@ -15,8 +15,14 @@ class SurfnetYubikeyApiClientExtension extends Extension
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $config);
 
-        $container->setParameter('surfnet_yubikey_api_client.credentials.client_id', $config['credentials']['client_id']);
-        $container->setParameter('surfnet_yubikey_api_client.credentials.client_secret', $config['credentials']['client_secret']);
+        $container->setParameter(
+            'surfnet_yubikey_api_client.credentials.client_id',
+            $config['credentials']['client_id']
+        );
+        $container->setParameter(
+            'surfnet_yubikey_api_client.credentials.client_secret',
+            $config['credentials']['client_secret']
+        );
 
         $loader = new YamlFileLoader(
             $container,
