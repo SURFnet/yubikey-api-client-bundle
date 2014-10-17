@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                             ->isRequired()
                             ->validate()
                                 ->ifTrue(function ($value) {
-                                    return (!is_string($value) || trim($value) === '');
+                                    return (!is_string($value) && !is_int($value)) || trim($value) === '';
                                 })
                                 ->thenInvalid('Invalid YubiKey API Client ID specified: "%s"')
                             ->end()
