@@ -2,6 +2,9 @@
 VERSION 1  YUBIKEY API CLIENT BUNDLE
 ====================================
 
+   Version 1.2 - Correct bundle configuration and service definitions
+      17/10/2014 14:04  1.2.0  initial release
+
    Version 1.1 - Correct bundle configuration and service definitions
       17/10/2014 11:25  1.1.0  initial release
 
