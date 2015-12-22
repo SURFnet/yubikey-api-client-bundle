@@ -14,36 +14,36 @@
 
 services:
     surfnet_yubikey_api_client.verification_service:
-        class: Surfnet\YubikeyApiClientBundle\Service\VerificationService
+        class: "Surfnet\\YubikeyApiClientBundle\\Service\\VerificationService"
         arguments:
-            - @surfnet_yubikey_api_client.library_verification_service
-            - @logger
+            - "@surfnet_yubikey_api_client.library_verification_service"
+            - "@logger"
 
     surfnet_yubikey_api_client.library_verification_service:
         public: false
         class: Surfnet\YubikeyApiClient\Service\VerificationService
         arguments:
-            - @surfnet_yubikey_api_client.server_pool_client
-            - @surfnet_yubikey_api_client.nonce_generator
-            - @surfnet_yubikey_api_client.signer
-            - %surfnet_yubikey_api_client.credentials.client_id%
+            - "@surfnet_yubikey_api_client.server_pool_client"
+            - "@surfnet_yubikey_api_client.nonce_generator"
+            - "@surfnet_yubikey_api_client.signer"
+            - "%surfnet_yubikey_api_client.credentials.client_id%"
 
     surfnet_yubikey_api_client.server_pool_client:
         public: false
-        class: Surfnet\YubikeyApiClient\Http\ServerPoolClient
+        class: "Surfnet\\YubikeyApiClient\\Http\\ServerPoolClient"
         arguments:
-            - @surfnet_yubikey_api_client.guzzle
+            - "@surfnet_yubikey_api_client.guzzle"
 
     surfnet_yubikey_api_client.guzzle:
         public: false
-        class: GuzzleHttp\Client
+        class: "GuzzleHttp\\Client"
 
     surfnet_yubikey_api_client.nonce_generator:
         public: false
-        class: Surfnet\YubikeyApiClient\Crypto\RandomNonceGenerator
+        class: "Surfnet\\YubikeyApiClient\\Crypto\\RandomNonceGenerator"
 
     surfnet_yubikey_api_client.signer:
         public: false
-        class: Surfnet\YubikeyApiClient\Crypto\Signer
+        class: "Surfnet\\YubikeyApiClient\\Crypto\\Signer"
         arguments:
-            - %surfnet_yubikey_api_client.credentials.client_secret%
+            - "%surfnet_yubikey_api_client.credentials.client_secret%"
