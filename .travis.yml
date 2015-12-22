@@ -20,7 +20,7 @@ cache:
 before_script:
   - phpenv config-add .travis.php.ini
   - composer self-update
-  - composer install --prefer-dist
+  - composer install --prefer-source --no-interaction
 
 script:
   - ant
