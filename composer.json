@@ -7,7 +7,6 @@
         "surfnet"
     ],
     "license": "Apache-2.0",
-    "minimum-stability": "stable",
     "autoload": {
         "psr-0": {
             "Surfnet\\YubikeyApiClient\\": "src",
