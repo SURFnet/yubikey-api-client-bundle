@@ -23,6 +23,8 @@
         "ibuildings/qa-tools": "~1.1",
         "liip/rmt": "1.1.*",
         "matthiasnoback/symfony-config-test": "0.*",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "symfony/framework-bundle": ">=2.3,<4",
+        "symfony/monolog-bundle": "^2.11"
     }
 }
