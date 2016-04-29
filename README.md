@@ -9,7 +9,7 @@ A Symfony2 bundle to integrate Yubikey's OTP validation service.
 Add the bundle to your Composer file.
 
 ```sh
-composer require 'surfnet/yubikey-api-client-bundle:dev-develop'
+composer require 'surfnet/yubikey-api-client-bundle'
 ```
 
 Add the bundle to your AppKernel.
