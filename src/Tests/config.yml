@@ -1,0 +1,6 @@
+framework:
+    secret: "ijuDHO*&FCTYHB&*(DBTFYO*&SYFDB)&*OYSHDLB YEF*I(IO"
+surfnet_yubikey_api_client:
+    credentials:
+        client_id: 12345
+        client_secret: Q2h1Y2sgVGVzdGE=

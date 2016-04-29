@@ -70,9 +70,7 @@
     <target name="phpcpd-ci" description="Find duplicate code using PHPCPD">
         <exec executable="vendor/bin/phpcpd" failonerror="false">
             <arg value="--exclude"/>
-            <arg value="src/Surfnet/YubikeyApiClient/Tests"/>
-            <arg value="--exclude"/>
-            <arg value="src/Surfnet/YubikeyApiClientBundle/Tests"/>
+            <arg value="src/Tests"/>
             <arg path="src"/>
         </exec>
     </target>

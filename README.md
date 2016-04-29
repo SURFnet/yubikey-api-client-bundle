@@ -1,6 +1,9 @@
 # Yubikey API Client Bundle
 
-[![Build Status](https://travis-ci.org/SURFnet/yubikey-api-client-bundle.svg)](https://travis-ci.org/SURFnet/yubikey-api-client-bundle) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/badges/quality-score.png?b=feature%2Fvalidate-otp)](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/?branch=feature%2Fvalidate-otp) [![SensioLabs Insight](https://insight.sensiolabs.com/projects/ff8db7ec-e164-4fcf-a90b-16c02856d1d4/mini.png)](https://insight.sensiolabs.com/projects/ff8db7ec-e164-4fcf-a90b-16c02856d1d4)
+|               | Build Status  | Scrutinizer Code Quality |
+| ------------- | ------------- | ----- |
+| develop       | [![Build Status](https://travis-ci.org/SURFnet/yubikey-api-client-bundle.svg?branch=develop)](https://travis-ci.org/SURFnet/yubikey-api-client-bundle) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/?branch=develop) |
+| master       | [![Build Status](https://travis-ci.org/SURFnet/yubikey-api-client-bundle.svg?branch=master)](https://travis-ci.org/SURFnet/yubikey-api-client-bundle) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/?branch=master) |
 
 A Symfony2 bundle to integrate Yubikey's OTP validation service.
 
@@ -9,7 +12,7 @@ A Symfony2 bundle to integrate Yubikey's OTP validation service.
 Add the bundle to your Composer file.
 
 ```sh
-composer require 'surfnet/yubikey-api-client-bundle:dev-develop'
+composer require 'surfnet/yubikey-api-client-bundle'
 ```
 
 Add the bundle to your AppKernel.
