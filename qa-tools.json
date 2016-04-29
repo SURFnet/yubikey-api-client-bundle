@@ -45,8 +45,7 @@
 	"enablePhpUnit": true,
 	"customPhpUnitXml": false,
 	"phpTestsPath": [
-		"src\/Surfnet\/YubikeyApiClient\/Tests",
-		"src\/Surfnet\/YubikeyApiClientBundle\/Tests"
+		"src\/Tests"
 	],
 	"enablePhpUnitAutoload": true,
 	"phpUnitAutoloadPath": "vendor\/autoload.php",
