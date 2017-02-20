@@ -1,4 +1,10 @@
 
+VERSION 3  UPDATED MINIMUM VERSION REQUIREMENT FOR PHP. UPDATED YUBIKEY-API-CLIENT FOR SECURITY FIXES.
+======================================================================================================
+
+   Version 3.0 - Updated minimum version requirement for PHP. Updated yubikey-api-client for security fixes.
+      20/02/2017 16:47  3.0.0  initial release
+
 VERSION 2  SEPARATED LIBRARY FROM BUNDLE
 ========================================
 
