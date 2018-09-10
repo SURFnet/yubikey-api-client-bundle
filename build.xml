@@ -2,7 +2,7 @@
 
 <project name="Yubikey API Client Bundle-ci" default="build">
         <target name="build"
-            depends="php-lint-ci,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit-ci"/>
+            depends="php-lint-ci,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit-ci,security-checker"/>
 
     <target name="get-changeset.php.raw"
             description="creates a list of changed php files separated by newline">
@@ -82,4 +82,11 @@
         </exec>
     </target>
 
+    <target name="security-checker" description="Check for vulnerable dependencies with SensioLabs Security Checker">
+        <exec executable="vendor/bin/security-checker" failonerror="true">
+            <arg value="security:check" />
+            <arg value="--end-point=http://security.sensiolabs.org/check_lock" />
+            <arg value="--verbose" />
+        </exec>
+    </target>
 </project>

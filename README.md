@@ -5,7 +5,7 @@
 | develop       | [![Build Status](https://travis-ci.org/SURFnet/yubikey-api-client-bundle.svg?branch=develop)](https://travis-ci.org/SURFnet/yubikey-api-client-bundle) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/?branch=develop) |
 | master       | [![Build Status](https://travis-ci.org/SURFnet/yubikey-api-client-bundle.svg?branch=master)](https://travis-ci.org/SURFnet/yubikey-api-client-bundle) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SURFnet/yubikey-api-client-bundle/?branch=master) |
 
-A Symfony2 bundle to integrate Yubikey's OTP validation service.
+A Symfony2 & 3 bundle to integrate Yubikey's OTP validation service.
 
 ## Installation
 
