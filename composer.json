@@ -21,7 +21,6 @@
     },
     "require-dev": {
         "ibuildings/qa-tools": "~1.1",
-        "liip/rmt": "1.1.*",
         "matthiasnoback/symfony-config-test": "^1.4",
         "mockery/mockery": "0.9.*",
         "symfony/framework-bundle": ">=2.3,<4",
