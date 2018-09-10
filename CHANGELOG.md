@@ -1,7 +1,7 @@
 # Changelog
 
 ## 3.0.1
-Remove RMT from the project. From now on use this changelog file
+Remove RMT and Ibuildings QA tools from the project.
 
 ## Older versions
 Older entries can be found on the projects github page.
