@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+Upgrade yubikey-api-client to use new YK api endpoints
+
 ## 3.0.1
 Remove RMT and Ibuildings QA tools from the project.
 
@@ -7,3 +11,4 @@ Remove RMT and Ibuildings QA tools from the project.
 Older entries can be found on the projects github page.
 See https://github.com/SURFnet/yubikey-api-client-bundle/releases
 
+ 
