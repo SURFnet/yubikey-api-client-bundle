@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.1.0
 
 Upgrade yubikey-api-client to use new YK api endpoints
 
