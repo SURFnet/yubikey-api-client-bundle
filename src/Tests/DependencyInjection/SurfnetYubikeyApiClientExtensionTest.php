@@ -2,7 +2,7 @@
 
 namespace Surfnet\YubikeyApiClientBundle\Tests\DependencyInjection;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Surfnet\YubikeyApiClientBundle\Tests\TestKernel;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -19,6 +19,7 @@ class SurfnetYubikeyApiClientExtensionTest extends TestCase
 
         /** @var Container $container */
         $container = $kernel->getContainer();
+        $this->expectNotToPerformAssertions();
         $container->get('surfnet_yubikey_api_client.verification_service');
     }
 }

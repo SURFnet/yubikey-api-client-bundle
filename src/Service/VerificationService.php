@@ -7,35 +7,17 @@ use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Otp;
 use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
-use Surfnet\YubikeyApiClient\Service\VerificationService as Service;
+use Surfnet\YubikeyApiClient\Service\VerificationServiceInterface as Service;
 
 class VerificationService
 {
-    /**
-     * @var Service
-     */
-    private $service;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @param Service $service
-     * @param LoggerInterface $logger
-     */
-    public function __construct(Service $service, LoggerInterface $logger)
-    {
-        $this->service = $service;
-        $this->logger = $logger;
+    public function __construct(
+        private Service $service,
+        private LoggerInterface $logger,
+    ) {
     }
 
-    /**
-     * @param Otp $otp
-     * @return OtpVerificationResult
-     */
-    public function verify(Otp $otp)
+    public function verify(Otp $otp): OtpVerificationResult
     {
         try {
             $result = $this->service->verify($otp);

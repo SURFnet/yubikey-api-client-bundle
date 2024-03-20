@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Kernel;
 
 final class TestKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new FrameworkBundle(),
@@ -19,22 +19,22 @@ final class TestKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/config.yml');
     }
 
-    public function getRootDir()
+    public function getRootDir(): string
     {
         return sys_get_temp_dir() . '/surfnet-yubikey-api-client-bundle';
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->getRootDir() . '/cache';
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->getRootDir() . '/logs';
     }
