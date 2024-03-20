@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.0  
+Drop support for SF 4
+Changed to GHA
+Added extra QA tools
+
 ## 4.1.1
 
 Do not pin dependency versions
@@ -17,4 +22,3 @@ Remove RMT and Ibuildings QA tools from the project.
 Older entries can be found on the projects github page.
 See https://github.com/SURFnet/yubikey-api-client-bundle/releases
 
- 
