@@ -14,6 +14,7 @@
 
 services:
     surfnet_yubikey_api_client.verification_service:
+        public: true
         class: "Surfnet\\YubikeyApiClientBundle\\Service\\VerificationService"
         arguments:
             - "@surfnet_yubikey_api_client.library_verification_service"

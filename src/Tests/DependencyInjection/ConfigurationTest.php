@@ -2,11 +2,14 @@
 
 namespace Surfnet\YubikeyApiClientBundle\Tests\DependencyInjection;
 
-use Matthias\SymfonyConfigTest\PhpUnit\AbstractConfigurationTestCase;
+use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use PHPUnit\Framework\TestCase;
 use Surfnet\YubikeyApiClientBundle\DependencyInjection\Configuration;
 
-class ConfigurationTest extends AbstractConfigurationTestCase
+final class ConfigurationTest extends TestCase
 {
+    use ConfigurationTestCaseTrait;
+
     public function testClientIdIsRequired()
     {
         $this->assertCredentialsConfigurationIsInvalid([
@@ -49,7 +52,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         ], 'Invalid YubiKey API secret specified');
     }
 
-    protected function assertCredentialsConfigurationIsInvalid(array $configurationValues, $expectedMessage = null)
+    protected function assertCredentialsConfigurationIsInvalid(array $configurationValues, $expectedMessage = null): void
     {
         $this->assertConfigurationIsInvalid(
             ['surfnet_yubikey_api_client' => ['credentials' => $configurationValues]],
@@ -57,7 +60,7 @@ class ConfigurationTest extends AbstractConfigurationTestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration;
     }
