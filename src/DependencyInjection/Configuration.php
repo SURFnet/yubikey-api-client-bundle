@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -41,7 +43,7 @@ class Configuration implements ConfigurationInterface
                             ->isRequired()
                             ->validate()
                                 ->ifTrue(function ($value) {
-                                    return (!is_string($value) && !is_int($value)) || trim($value) === '';
+                                    return (!is_string($value) && !is_int($value)) || trim((string)$value) === '';
                                 })
                                 ->thenInvalid('Invalid YubiKey API Client ID specified: "%s"')
                             ->end()

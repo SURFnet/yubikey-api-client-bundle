@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\YubikeyApiClientBundle\Service;
 
 use Psr\Log\LoggerInterface;
