@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cd $(dirname $0)/../../
+
+# https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage
+./vendor/bin/phpcs --standard=./ci/qa/phpcs.xml --report=full --warning-severity=0 ./src

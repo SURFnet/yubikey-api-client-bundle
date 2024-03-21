@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\YubikeyApiClientBundle\Tests\Service;
 
 use Mockery as m;
@@ -74,10 +76,10 @@ class VerificationServiceTest extends TestCase
     public function testItLogsAllOtherErrorStatusesAsCriticals($errorStatus)
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock(OtpVerificationResult::class)
-            ->shouldReceive('isSuccessful')->once()->andReturn(false)
-            ->shouldReceive('getError')->once()->andReturn($errorStatus)
-            ->getMock();
+        $result = $this->createMock(OtpVerificationResult::class);
+        $result->method('isSuccessful')->willReturn(false);
+        $result->method('getError')->willReturn($errorStatus);
+
 
         $service = new VerificationService(
             m::mock(VerificationServiceInterface::class)

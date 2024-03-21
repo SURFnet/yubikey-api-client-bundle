@@ -1,0 +1,9 @@
+includes:
+    - ./phpstan-baseline.neon
+    - ../../vendor/phpstan/phpstan-symfony/extension.neon
+    - ../../vendor/phpstan/phpstan-mockery/extension.neon
+    - ../../vendor/phpstan/phpstan-deprecation-rules/rules.neon
+parameters:
+	level: 2
+	paths:
+		- ../../src
