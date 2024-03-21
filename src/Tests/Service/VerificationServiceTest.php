@@ -3,6 +3,7 @@
 namespace Surfnet\YubikeyApiClientBundle\Tests\Service;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
@@ -14,6 +15,7 @@ use Surfnet\YubikeyApiClient\Service\VerificationServiceInterface;
 
 class VerificationServiceTest extends TestCase
 {
+    use mockeryPHPUnitIntegration;
     public function testItVerifiesAnOtp()
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
@@ -87,7 +89,6 @@ class VerificationServiceTest extends TestCase
         );
 
         $service->verify($otp);
-        $this->expectNotToPerformAssertions();
     }
 
     public function criticalErrorStatuses(): array
