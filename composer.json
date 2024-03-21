@@ -12,12 +12,13 @@
         }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "surfnet/yubikey-api-client": "^2.3",
         "symfony/config": "^4.4|^5.0|^6.0",
         "symfony/dependency-injection": "^4.4|^5.0|^6.0",
         "symfony/http-kernel": "^4.4|^5.0|^6.0",
-        "symfony/yaml": "^6.4"
+        "symfony/yaml": "^6.4",
+        "symfony/console": "^5.4"
     },
     "require-dev": {
         "mockery/mockery": "^1.6",

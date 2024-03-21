@@ -15,7 +15,7 @@ class SurfnetYubikeyApiClientExtensionTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function verification_service_can_be_loaded()
+    public function verificationServiceCanBeLoaded()
     {
         $kernel = new TestKernel('test', true);
         $kernel->boot();
