@@ -1,0 +1,8 @@
+includes:
+    - ./phpstan-baseline.neon
+    - ../../vendor/phpstan/phpstan-symfony/extension.neon
+    - ../../vendor/phpstan/phpstan-mockery/extension.neon
+parameters:
+	level: 2
+	paths:
+		- ../../src

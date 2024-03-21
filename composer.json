@@ -25,7 +25,7 @@
         "phpmd/phpmd": "^2.0",
         "phpunit/phpunit": "^9.0",
         "sensiolabs/security-checker": "^6",
-        "sebastian/phpcpd": "^2.0",
+        "sebastian/phpcpd": "^6.0",
         "squizlabs/php_codesniffer": "^3",
         "matthiasnoback/symfony-config-test": "^5.0",
         "symfony/framework-bundle": "^v5.4.36",
@@ -38,15 +38,13 @@
     "scripts": {
         "check": [
             "@composer-validate",
-            "@lint",
             "@phpcpd",
             "@phpcs",
             "@phpmd",
             "@phpstan",
-            "@unit-tests"
+            "@test"
         ],
         "composer-validate": "./ci/qa/validate",
-        "lint": "./ci/qa/lint",
         "phpcs": "./ci/qa/phpcs",
         "phpcpd": "./ci/qa/phpcpd",
         "phpcbf": "./ci/qa/phpcbf",
@@ -54,8 +52,6 @@
         "phpstan": "./ci/qa/phpstan",
         "phpstan-baseline": "./ci/qa/phpstan-update-baseline",
         "test": "./ci/qa/phpunit",
-        "unit-tests": "./ci/qa/phpunit --testsuite=UnitTests",
-        "web-tests": "./ci/qa/phpunit --testsuite=WebTests",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"

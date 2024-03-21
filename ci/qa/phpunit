@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd $(dirname $0)/../../
+
+APP_ENV=test APP_DEBUG=0 ./vendor/bin/phpunit -c ci/qa/phpunit.xml.dist $1
