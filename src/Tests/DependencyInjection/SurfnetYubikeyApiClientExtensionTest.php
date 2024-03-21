@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\YubikeyApiClientBundle\Tests\DependencyInjection;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use Surfnet\YubikeyApiClientBundle\Tests\TestKernel;
 use Symfony\Component\DependencyInjection\Container;

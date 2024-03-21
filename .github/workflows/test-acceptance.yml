@@ -1,0 +1,32 @@
+name: Run acceptance tests (WebTests & Behat)
+on: [pull_request]
+
+jobs:
+  run-qa-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /var/www/html/
+    container:
+      image:  ghcr.io/openconext/openconext-basecontainers/php82-apache2-node20-composer2:latest
+      volumes:
+        - .:/var/www/html
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Copy certificate material
+        run: mkdir /config && cp -r ./ci/config/* /config/
+
+      - name: Grab the right parameters.yaml
+        run: cp ./config/openconext/parameters.yaml.test.dist ./config/openconext/parameters.yaml
+
+      - name: Composer install
+        run: composer install
+
+      - name: Yarn & Yarn Encore
+        run: yarn && yarn encore production
+      
+      - name: Run PHPUnit WebTests
+        run: composer web-tests
