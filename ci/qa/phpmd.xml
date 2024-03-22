@@ -12,8 +12,6 @@
     </rule>
 
     <rule ref="rulesets/unusedcode.xml">
-        <!-- we turn this back on as soon as an exception for inherited/implemented methods is available-->
-        <exclude name="UnusedFormalParameter" />
     </rule>
 
     <rule ref="rulesets/codesize.xml" />
