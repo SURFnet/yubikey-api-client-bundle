@@ -21,7 +21,7 @@ jobs:
           files: "composer.lock"
       - name: Run php local security checker
         if: steps.check_composer.outputs.files_exists == 'true'
-        uses: symfonycorp/security-checker-action@v4
+        run: composer audit
 
       # node-yarn checks
       - name: Check for node-yarn project
