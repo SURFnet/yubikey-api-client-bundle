@@ -33,17 +33,21 @@
         "slevomat/coding-standard": "^8.15",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-symfony": "^1.3",
-        "phpstan/phpstan-mockery": "^1.1"
+        "phpstan/phpstan-mockery": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "overtrue/phplint": "^9.0"
     },
     "scripts": {
         "check": [
             "@composer-validate",
+            "@phplint",
             "@phpcpd",
             "@phpcs",
             "@phpmd",
             "@phpstan",
             "@test"
         ],
+        "phplint": "./ci/qa/phplint",
         "composer-validate": "./ci/qa/validate",
         "phpcs": "./ci/qa/phpcs",
         "phpcpd": "./ci/qa/phpcpd",
