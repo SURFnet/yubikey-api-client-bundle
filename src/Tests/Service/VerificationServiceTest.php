@@ -1,28 +1,35 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\YubikeyApiClientBundle\Tests\Service;
 
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
 use Surfnet\YubikeyApiClient\Exception\UntrustedSignatureException;
 use Surfnet\YubikeyApiClient\Otp;
 use Surfnet\YubikeyApiClient\Service\OtpVerificationResult;
 use Surfnet\YubikeyApiClientBundle\Service\VerificationService;
+use Surfnet\YubikeyApiClient\Service\VerificationServiceInterface;
 
-class VerificationServiceTest extends \PHPUnit_Framework_TestCase
+class VerificationServiceTest extends TestCase
 {
+    use mockeryPHPUnitIntegration;
     public function testItVerifiesAnOtp()
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock('Surfnet\YubikeyApiClient\Service\OtpVerificationResult')
+        $result = m::mock(OtpVerificationResult::class)
             ->shouldReceive('isSuccessful')->andReturn(true)
             ->getMock();
 
         $service = new VerificationService(
-            m::mock('Surfnet\YubikeyApiClient\Service\VerificationService')
+            m::mock(VerificationServiceInterface::class)
                 ->shouldReceive('verify')->once()->with($otp)->andReturn($result)
                 ->getMock(),
-            m::mock('Psr\Log\LoggerInterface')
+            m::mock(LoggerInterface::class)
         );
 
         $this->assertTrue($service->verify($otp)->isSuccessful());
@@ -33,10 +40,10 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
 
         $service = new VerificationService(
-            m::mock('Surfnet\YubikeyApiClient\Service\VerificationService')
+            m::mock(VerificationServiceInterface::class)
                 ->shouldReceive('verify')->once()->with($otp)->andThrow(new UntrustedSignatureException)
                 ->getMock(),
-            m::mock('Psr\Log\LoggerInterface')
+            m::mock(LoggerInterface::class)
                 ->shouldReceive('alert')->once()
                 ->getMock()
         );
@@ -50,10 +57,10 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
 
         $service = new VerificationService(
-            m::mock('Surfnet\YubikeyApiClient\Service\VerificationService')
+            m::mock(VerificationServiceInterface::class)
                 ->shouldReceive('verify')->once()->with($otp)->andThrow(new RequestResponseMismatchException)
                 ->getMock(),
-            m::mock('Psr\Log\LoggerInterface')
+            m::mock(LoggerInterface::class)
                 ->shouldReceive('alert')->once()
                 ->getMock()
         );
@@ -69,16 +76,16 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
     public function testItLogsAllOtherErrorStatusesAsCriticals($errorStatus)
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock('Surfnet\YubikeyApiClient\Service\OtpVerificationResult')
-            ->shouldReceive('isSuccessful')->once()->andReturn(false)
-            ->shouldReceive('getError')->once()->andReturn($errorStatus)
-            ->getMock();
+        $result = $this->createMock(OtpVerificationResult::class);
+        $result->method('isSuccessful')->willReturn(false);
+        $result->method('getError')->willReturn($errorStatus);
+
 
         $service = new VerificationService(
-            m::mock('Surfnet\YubikeyApiClient\Service\VerificationService')
+            m::mock(VerificationServiceInterface::class)
                 ->shouldReceive('verify')->once()->with($otp)->andReturn($result)
                 ->getMock(),
-            m::mock('Psr\Log\LoggerInterface')
+            m::mock(LoggerInterface::class)
                 ->shouldReceive('critical')->once()
                 ->getMock()
         );
@@ -86,7 +93,7 @@ class VerificationServiceTest extends \PHPUnit_Framework_TestCase
         $service->verify($otp);
     }
 
-    public function criticalErrorStatuses()
+    public function criticalErrorStatuses(): array
     {
         return [
             'Didn\'t log ERROR_BAD_OTP as critical'               => [OtpVerificationResult::ERROR_BAD_OTP],
