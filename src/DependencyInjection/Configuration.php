@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Copyright 2014 SURFnet bv
  *
@@ -26,11 +28,11 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('surfnet_yubikey_api_client');
 
-        $rootNode = $treeBuilder->root('surfnet_yubikey_api_client');
+        $rootNode = $treeBuilder->getRootNode();
         $rootNode
             ->children()
                 ->arrayNode('credentials')
@@ -41,7 +43,7 @@ class Configuration implements ConfigurationInterface
                             ->isRequired()
                             ->validate()
                                 ->ifTrue(function ($value) {
-                                    return (!is_string($value) && !is_int($value)) || trim($value) === '';
+                                    return (!is_string($value) && !is_int($value)) || trim((string)$value) === '';
                                 })
                                 ->thenInvalid('Invalid YubiKey API Client ID specified: "%s"')
                             ->end()

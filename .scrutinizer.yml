@@ -1,3 +1,13 @@
+build:
+    image: default-jammy
+    environment:
+        php: 8.2
+        node: v20
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
 filter:
     excluded_paths:
         - src/Tests/*
