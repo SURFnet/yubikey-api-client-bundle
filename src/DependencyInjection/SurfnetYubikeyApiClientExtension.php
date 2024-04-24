@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Surfnet\YubikeyApiClientBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
@@ -29,5 +31,10 @@ class SurfnetYubikeyApiClientExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yml');
+
+        //check for test environment
+        if ($container->getParameter('kernel.environment') === 'test') {
+            $loader->load('services_test.yml');
+        }
     }
 }
