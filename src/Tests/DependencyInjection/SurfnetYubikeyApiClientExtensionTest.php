@@ -4,18 +4,17 @@ declare(strict_types = 1);
 
 namespace Surfnet\YubikeyApiClientBundle\Tests\DependencyInjection;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Surfnet\YubikeyApiClientBundle\Tests\TestKernel;
 use Symfony\Component\DependencyInjection\Container;
 
 class SurfnetYubikeyApiClientExtensionTest extends TestCase
 {
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function verificationServiceCanBeLoaded()
+    #[Test]
+    #[Group('DependencyInjection')]
+    public function verificationServiceCanBeLoaded(): void
     {
         $kernel = new TestKernel('test', true);
         $kernel->boot();

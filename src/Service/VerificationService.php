@@ -14,8 +14,8 @@ use Surfnet\YubikeyApiClient\Service\VerificationServiceInterface as Service;
 class VerificationService
 {
     public function __construct(
-        private Service $service,
-        private LoggerInterface $logger,
+        private readonly Service $service,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

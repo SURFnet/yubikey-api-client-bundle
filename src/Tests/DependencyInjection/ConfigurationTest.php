@@ -12,14 +12,14 @@ final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    public function testClientIdIsRequired()
+    public function testClientIdIsRequired(): void
     {
         $this->assertCredentialsConfigurationIsInvalid([
             'client_secret' => '___',
         ], 'must be configured');
     }
 
-    public function testClientIdMustBeNonEmptyString()
+    public function testClientIdMustBeNonEmptyString(): void
     {
         $this->assertCredentialsConfigurationIsInvalid([
             'client_id' => '',
@@ -33,14 +33,14 @@ final class ConfigurationTest extends TestCase
         ], 'Invalid YubiKey API Client ID specified');
     }
 
-    public function testClientSecretIsRequired()
+    public function testClientSecretIsRequired(): void
     {
         $this->assertCredentialsConfigurationIsInvalid([
             'client_id' => '38213',
         ], 'must be configured');
     }
 
-    public function testClientSecretMustBeNonEmptyString()
+    public function testClientSecretMustBeNonEmptyString(): void
     {
         $this->assertCredentialsConfigurationIsInvalid([
             'client_id' => '8932',
@@ -54,7 +54,10 @@ final class ConfigurationTest extends TestCase
         ], 'Invalid YubiKey API secret specified');
     }
 
-    protected function assertCredentialsConfigurationIsInvalid(array $configurationValues, $expectedMessage = null): void
+    /**
+     * @param array<string,string> $configurationValues
+     */
+    protected function assertCredentialsConfigurationIsInvalid(array $configurationValues, ?string $expectedMessage = null): void
     {
         $this->assertConfigurationIsInvalid(
             ['surfnet_yubikey_api_client' => ['credentials' => $configurationValues]],
