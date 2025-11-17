@@ -1,3 +1,5 @@
 /vendor/
 /cache.properties
-/ci/qa/.phpcs-cache
+/var
+.idea
+composer.lock

@@ -1,11 +1,26 @@
 <?php
 
+/**
+ * Copyright 2025 SURFnet bv
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 declare(strict_types = 1);
 
 namespace Surfnet\YubikeyApiClientBundle\Tests\Service;
 
-use Mockery as m;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Surfnet\YubikeyApiClient\Exception\RequestResponseMismatchException;
@@ -17,83 +32,93 @@ use Surfnet\YubikeyApiClient\Service\VerificationServiceInterface;
 
 class VerificationServiceTest extends TestCase
 {
-    use mockeryPHPUnitIntegration;
-    public function testItVerifiesAnOtp()
+    public function testItVerifiesAnOtp(): void
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
-        $result = m::mock(OtpVerificationResult::class)
-            ->shouldReceive('isSuccessful')->andReturn(true)
-            ->getMock();
 
-        $service = new VerificationService(
-            m::mock(VerificationServiceInterface::class)
-                ->shouldReceive('verify')->once()->with($otp)->andReturn($result)
-                ->getMock(),
-            m::mock(LoggerInterface::class)
-        );
+        $result = $this->createMock(OtpVerificationResult::class);
+        $result->method('isSuccessful')->willReturn(true);
+
+        $verificationService = $this->createMock(VerificationServiceInterface::class);
+        $verificationService->expects($this->once())
+            ->method('verify')
+            ->with($otp)
+            ->willReturn($result);
+
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $service = new VerificationService($verificationService, $logger);
 
         $this->assertTrue($service->verify($otp)->isSuccessful());
     }
 
-    public function testItLogsUntrustedSignaturesAsAlerts()
+    public function testItLogsUntrustedSignaturesAsAlerts(): void
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
 
-        $service = new VerificationService(
-            m::mock(VerificationServiceInterface::class)
-                ->shouldReceive('verify')->once()->with($otp)->andThrow(new UntrustedSignatureException)
-                ->getMock(),
-            m::mock(LoggerInterface::class)
-                ->shouldReceive('alert')->once()
-                ->getMock()
-        );
+        $verificationService = $this->createMock(VerificationServiceInterface::class);
+        $verificationService->expects($this->once())
+            ->method('verify')
+            ->with($otp)
+            ->willThrowException(new UntrustedSignatureException());
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('alert');
+
+        $service = new VerificationService($verificationService, $logger);
 
         $result = $service->verify($otp);
         $this->assertEquals(OtpVerificationResult::ERROR_BAD_SIGNATURE, $result->getError());
     }
 
-    public function testItLogsRequestResponseMismatchesAsAlerts()
+    public function testItLogsRequestResponseMismatchesAsAlerts(): void
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
 
-        $service = new VerificationService(
-            m::mock(VerificationServiceInterface::class)
-                ->shouldReceive('verify')->once()->with($otp)->andThrow(new RequestResponseMismatchException)
-                ->getMock(),
-            m::mock(LoggerInterface::class)
-                ->shouldReceive('alert')->once()
-                ->getMock()
-        );
+        $verificationService = $this->createMock(VerificationServiceInterface::class);
+        $verificationService->expects($this->once())
+            ->method('verify')
+            ->with($otp)
+            ->willThrowException(new RequestResponseMismatchException());
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('alert');
+
+        $service = new VerificationService($verificationService, $logger);
 
         $result = $service->verify($otp);
         $this->assertEquals(OtpVerificationResult::ERROR_BACKEND_ERROR, $result->getError());
     }
 
-    /**
-     * @dataProvider criticalErrorStatuses
-     * @param string $errorStatus
-     */
-    public function testItLogsAllOtherErrorStatusesAsCriticals($errorStatus)
+    #[DataProvider('criticalErrorStatuses')]
+    public function testItLogsAllOtherErrorStatusesAsCriticals(string $errorStatus): void
     {
         $otp = Otp::fromString('ddddddbtbhnhcjnkcfeiegrrnnednjcluulduerelthv');
         $result = $this->createMock(OtpVerificationResult::class);
         $result->method('isSuccessful')->willReturn(false);
         $result->method('getError')->willReturn($errorStatus);
 
+        $verificationService = $this->createMock(VerificationServiceInterface::class);
+        $verificationService->expects($this->once())
+            ->method('verify')
+            ->with($otp)
+            ->willReturn($result);
 
-        $service = new VerificationService(
-            m::mock(VerificationServiceInterface::class)
-                ->shouldReceive('verify')->once()->with($otp)->andReturn($result)
-                ->getMock(),
-            m::mock(LoggerInterface::class)
-                ->shouldReceive('critical')->once()
-                ->getMock()
-        );
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('critical');
+
+        $service = new VerificationService($verificationService, $logger);
 
         $service->verify($otp);
     }
 
-    public function criticalErrorStatuses(): array
+    /**
+     * @return array<string,array<string>>
+     */
+    public static function criticalErrorStatuses(): array
     {
         return [
             'Didn\'t log ERROR_BAD_OTP as critical'               => [OtpVerificationResult::ERROR_BAD_OTP],

@@ -42,9 +42,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Client ID for the YubiKey API')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return (!is_string($value) && !is_int($value)) || trim((string)$value) === '';
-                                })
+                                ->ifTrue(fn($value) => (!is_string($value) && !is_int($value)) || trim((string)$value) === '')
                                 ->thenInvalid('Invalid YubiKey API Client ID specified: "%s"')
                             ->end()
                         ->end()
@@ -52,9 +50,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Secret for the YubiKey API')
                             ->isRequired()
                             ->validate()
-                                ->ifTrue(function ($value) {
-                                    return (!is_string($value) || trim($value) === '');
-                                })
+                                ->ifTrue(fn($value) => !is_string($value) || trim($value) === '')
                                 ->thenInvalid('Invalid YubiKey API secret specified: "%s"')
                             ->end()
                         ->end()

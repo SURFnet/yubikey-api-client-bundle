@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.0
+Maintenance release
+
+* Add support for SF 7
+* Drop support for SF 5
+* Upgrade QA tools and rules
+
 ## 4.2.0  
 Drop support for SF 4
 Changed to GHA
